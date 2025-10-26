@@ -1,0 +1,333 @@
+
+
+
+	_____________________________________________________________________________________________________________
+	|  Módulo		 	  Endpoint	   			Método			Descrição										|
+	+ --------- + -------------------------- + -------- + ----------------------------------------------------- + 
+	|Users		| /users					 | 	POST	| 	Cria um novo usuário                                | 
+	|			| /users/login				 | 	POST	| 	Realiza login do usuário                            | 
+	|			| /users/<user_id>			 | 	GET		| 	Obtém dados de um usuário                           | 
+	+ --------- + -------------------------- + -------- + ----------------------------------------------------- + 
+	|Freelances	| /freelances				 | 	POST	| 	Cria um novo freelance                              | 
+	|			| /freelances				 | 	GET		| 	Lista freelances filtrando por bairro e usuário     | 
+	|			| /freelances/<freelance_id> | 	GET		| 	Obtém detalhes de um freelance                      | 
+	|			| /freelances/<freelance_id> | 	PUT		| 	Define o worker de um freelance                     | 
+	+ --------- + -------------------------- + -------- + ----------------------------------------------------- + 
+	|Bairros	| /bairros					 | 	POST	| 	Cria um novo bairro                                 | 
+	|			| /bairros					 | 	GET		| 	Lista todos os bairros                              | 
+	|			| /bairros/<bairro_id>		 | 	GET		| 	Obtém um bairro específico                          |
+	+ --------- + -------------------------- + -------- + ----------------------------------------------------- +  
+	|Chats		| /chats					 | 	GET		| 	Lista todos os chats de um usuário                  | 
+	|			| /chats/existing			 | 	GET		| 	Verifica se um chat entre dois usuários já existe   | 
+	|			| /chats/messages			 | 	GET		| 	Lista todas as mensagens de um chat                 | 
+	+ --------- + -------------------------- + -------- + ----------------------------------------------------- + 
+			
+			
+			
+			
+ _______________________________________________
+|												|
+|   👤 Módulo: Users							|
+|_______________________________________________|
+
++ ================================================================================================== + 
+
+POST /users
+
+Cria um novo usuário no sistema.
+
+Body:
+
+{
+  "name": "João Silva",
+  "email": "joao@email.com",
+  "password": "123456"
+}
+
+
+Responses:
+
+201 Created — Usuário criado com sucesso.
+
+400 Bad Request — Campos obrigatórios ausentes (name, email, password).
+
++ ================================================================================================== + 
+
+POST /users/login
+
+Realiza o login de um usuário.
+
+Body:
+
+{
+  "email": "joao@email.com",
+  "password": "123456"
+}
+
+
+Responses:
+
+200 OK — Login realizado com sucesso.
+
+400 Bad Request — Credenciais inválidas.
+
++ ================================================================================================== + 
+
+GET /users/<user_id>
+
+Obtém as informações de um usuário específico.
+
+Parâmetros de URL:
+
+user_id (int) — ID do usuário.
+
+Responses:
+
+200 OK — Retorna o usuário.
+
+404 Not Found — Usuário não encontrado.
+
+
++ ================================================================================================== + 
+
+ _______________________________________________	
+|												|
+|      💼 Módulo: Freelances					|
+|_______________________________________________|
+
++ ================================================================================================== + 
+
+POST /freelances
+
+Cria um novo serviço (freelance).
+
+Body:
+
+{
+  "title": "Conserto de Computador",
+  "description": "Troca de peças e formatação",
+  "price": 150.0,
+  "bairro": 2,
+  "user_id": 1
+}
+
+
+Responses:
+
+201 Created — Freelance criado com sucesso.
+
+400 Bad Request — Campos obrigatórios ausentes.
+
++ ================================================================================================== + 
+
+GET /freelances
+
+Lista os freelances existentes, com filtros opcionais.
+
+Query Params:
+
+bairro_id (opcional) — Filtra freelances de um bairro específico.
+
+user_id (opcional) — Filtra freelances de um usuário específico.
+
+Responses:
+
+200 OK — Retorna lista de freelances.
+
+Exemplo de resposta:
+
+[
+  {
+    "id": 1,
+    "title": "Reparo Elétrico",
+    "description": "Troca de tomadas",
+    "price": 100,
+    "bairro_id": 2,
+    "bairro": "Centro",
+    "user_id": 5,
+    "user_name": "Pedro",
+    "worker_id": null,
+    "worker_name": null
+  }
+]
+
++ ================================================================================================== + 
+
+GET /freelances/<freelance_id>
+
+Obtém os detalhes de um freelance.
+
+Params:
+
+freelance_id (int) — ID do serviço.
+
+Responses:
+
+200 OK — Retorna o freelance.
+
+404 Not Found — Não encontrado.
+
++ ================================================================================================== + 
+
+PUT /freelances/<freelance_id>
+
+Define o trabalhador (worker_id) de um freelance.
+
+Body:
+
+{ "worker_id": 3 }
+
+
+Responses:
+
+200 OK — Worker definido com sucesso.
+
+400 Bad Request — Erro de validação.
+
+
++ ================================================================================================== + 
+
+ _______________________________________________
+|												|
+|    ️ Módulo: Bairros							|
+|_______________________________________________|
+
+
++ ================================================================================================== + 
+
+
+POST /bairros
+
+Cria um novo bairro.
+
+Body:
+
+{ "nome": "Centro" }
+
+
+Responses:
+
+201 Created — Bairro criado com sucesso.
+
+400 Bad Request — Erro de validação.
+
++ ================================================================================================== + 
+
+GET /bairros
+
+Lista todos os bairros cadastrados.
+
+Responses:
+
+200 OK — Retorna lista de bairros.
+
+Exemplo de resposta:
+
+[
+  { "id": 1, "nome": "Centro" },
+  { "id": 2, "nome": "Jardim América" }
+]
+
++ ================================================================================================== + 
+
+GET /bairros/<bairro_id>
+
+Obtém os detalhes de um bairro específico.
+
+Params:
+
+bairro_id (int)
+
+Responses:
+
+200 OK — Retorna o bairro.
+
+404 Not Found — Bairro não encontrado.
+
+
++ ================================================================================================== + 
+
+ _______________________________________________
+|												|
+|    💬 Módulo: Chats							|
+|_______________________________________________|
+
+
++ ================================================================================================== + 
+
+GET /chats
+
+Lista todos os chats de um usuário.
+
+Query Params:
+
+user_id (int, obrigatório) — ID do usuário.
+
+Responses:
+
+200 OK — Retorna todos os chats do usuário.
+
+400 Bad Request — user_id não informado.
+
++ ================================================================================================== + 
+
+GET /chats/existing
+
+Verifica se um chat entre dois usuários já existe.
+
+Query Params:
+
+user1_id (int)
+
+user2_id (int)
+
+Responses:
+
+200 OK —
+
+{ "exists": true, "chat": { "id": 1, "user1_id": 1, "user2_id": 2 } }
+
+
+200 OK —
+
+{ "exists": false }
+
++ ================================================================================================== + 
+
+GET /chats/messages
+
+Obtém todas as mensagens de um chat específico.
+
+Query Params:
+
+chat_id (int, obrigatório) — ID do chat.
+
+Responses:
+
+200 OK — Lista de mensagens.
+
+400 Bad Request — chat_id não informado.
+
+Exemplo de resposta:
+
+[
+  {
+    "id": 1,
+    "chat_id": 3,
+    "sender_id": 1,
+    "content": "Oi, tudo bem?",
+    "timestamp": "2025-10-26T15:00:00"
+  },
+  {
+    "id": 2,
+    "chat_id": 3,
+    "sender_id": 2,
+    "content": "Tudo ótimo!",
+    "timestamp": "2025-10-26T15:01:00"
+  }
+]
+
+
+
+
+
