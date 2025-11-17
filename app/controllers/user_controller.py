@@ -38,4 +38,4 @@ def get_user(user_id):
     user = UserService.get_user(user_id)
     if not user:
         return jsonify({'error': 'Usuário não encontrado'}), 404
-    return jsonify({'id': user.id, 'name': user.name, 'email': user.email,'bairro': user.bairro})
+    return jsonify({'id': user.id, 'name': user.name, 'email': user.email })
