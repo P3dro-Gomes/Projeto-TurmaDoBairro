@@ -42,3 +42,9 @@ class ChatService:
             }
             for msg in messages
         ]
+
+    @staticmethod
+    def post_message(sender_id: int, chat_id: int, content: int):
+
+        return ChatRepository.post_messages_by_chat(sender_id= sender_id, chat_id= chat_id, content= content)
+

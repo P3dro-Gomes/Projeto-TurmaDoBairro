@@ -36,3 +36,17 @@ def get_messages():
 
     messages = ChatService.get_messages(chat_id)
     return jsonify(messages), 200
+
+
+@bp.route('/messages', methods=['POST'])
+def post_messages():
+    
+    chat_id = request.args.get('chat_id', type=int)
+    sender_id = request.args.get('sender_id', type=int)
+    content = request.args.get('content', type=int)
+
+    if not chat_id or sender_id or content:
+        return jsonify({"error": "Faltando informaçoes"}), 400
+
+    messages = ChatService.post_message(sender_id= sender_id, chat_id= chat_id, content= content)
+    return jsonify(messages), 200

@@ -61,8 +61,8 @@ class Chat(db.Model):
     user1_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     user2_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
-    last_message = db.Column(db.Text)
-    last_updated = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
+    last_message = db.Column(db.Text, nullable=True)
+    last_updated = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now(), nullable=True)
 
     __table_args__ = (
         db.UniqueConstraint('user1_id', 'user2_id', name='unique_chat_pair'),
